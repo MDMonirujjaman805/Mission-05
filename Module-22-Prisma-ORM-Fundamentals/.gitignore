@@ -1,0 +1,26 @@
+node_modules/
+
+/generated/prisma
+
+
+.env*
+.vscode/
+
+# Build directories
+/dist
+/build
+/output
+/.next
+/out    
+
+# Mac system files
+.DS_Store
+Thumbs.db
+# Logs
+logs
+*.log
+logs/*  
+
+# Dependency directories
+node_modules/
+jspm_packages/

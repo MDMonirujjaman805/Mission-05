@@ -1,23 +1,19 @@
 import { prisma } from "@/lib/prisma.js";
 import { Post } from "@prisma/client";
-// import { prisma } from "../../../lib/prisma.js";
-
 
 const createPost = async (
-  data: Omit<Post, "id" | "createdAt" | "updatedAt">
+  data: Omit<Post, "id" | "createdAt" | "updatedAt" | "authorId">,
+  userId: string
 ) => {
-  console.log("Create a new post");
-  try {
-    const result = await prisma.post.create({
-      data,
-    });
-    return result;
-  } catch (error) {
-    console.error("Error creating post:", error);
-    throw error;
-  }
-};
+  const result = await prisma.post.create({
+    data: {
+      ...data,
+      authorId: Number(userId), // 👈 fix here
+    },
+  });
 
+  return result;
+};
 export const postServices = {
   createPost,
 };

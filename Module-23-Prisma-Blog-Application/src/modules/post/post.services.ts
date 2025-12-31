@@ -1,5 +1,7 @@
+import { prisma } from "@/lib/prisma.js";
 import { Post } from "@prisma/client";
-import { prisma } from "../../../lib/prisma.js";
+// import { prisma } from "../../../lib/prisma.js";
+
 
 const createPost = async (
   data: Omit<Post, "id" | "createdAt" | "updatedAt">

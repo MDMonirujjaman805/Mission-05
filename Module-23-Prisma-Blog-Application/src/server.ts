@@ -1,31 +1,23 @@
-import cors from "cors";
 import app from "./app.js";
-import express from "express";
 import { prisma } from "./lib/prisma.js";
 
-const PORT = process.env.PORT || 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
-app.use(express.json());
-
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
-async function main() {
-  console.log("Server is up and running...");
+async function startServer() {
   try {
+    console.log("⏳ Starting server...");
+
     await prisma.$connect();
-    console.log("Connected to the database successfully.");
+    console.log("✅ Connected to the database");
+
     app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
+      console.log(`🚀 Server running on http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("Error during server initialization:", error);
+    console.error("❌ Server failed to start:", error);
+    await prisma.$disconnect();
     process.exit(1);
   }
 }
 
-export default main();
+startServer();

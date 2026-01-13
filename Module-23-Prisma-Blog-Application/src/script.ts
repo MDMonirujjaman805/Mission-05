@@ -1,34 +1,37 @@
-// import { User } from "./../generated/prisma/models/User";
-// import { User } from "./lib/prisma.js src/lib/prisma/prisma/models/User.js";
-import { User } from "../lib/prisma.js";
-import { prisma } from "../lib/prisma.js";
+import { prisma } from "./lib/prisma.js";
 
 async function main() {
-  // Create a new user with a post
-  const user = await prisma.User.create({
-    data: {
-      name: "Mahdi",
-      email: "mahdi@example.com",
+  const user = await prisma.user.upsert({
+    where: { email: "abdullah@example.com" },
+    update: {
       posts: {
         create: [
           {
-            title: "Hello World",
-            content: "This is my first post!",
-            thumbnail: "https://example.com/thumbnail.jpg",
-            isFeatured: true,
-            status: "PUBLISHED",
-            tags: ["introduction", "hello"],
-            views: 100,
-            published: true,
+            id: crypto.randomUUID(),
+            title: "New post for existing user",
+            content: "This is content for post,from Amatullah ayat.",
           },
         ],
       },
     },
-    include: {
-      posts: true,
+    create: {
+      id: crypto.randomUUID(),
+      name: "Abdullah anas",
+      email: "abdullah@example.com",
+      phone: "98765443",
+      role: "USER",
+      posts: {
+        create: [
+          {
+            title: "Hello World",
+            content: "This is my first post! from Abdullah.",
+          },
+        ],
+      },
     },
+    include: { posts: true },
   });
-  console.log("Created user:", user);
+  // console.log("Created user:", user);
 
   // Fetch all users with their posts
   const allUsers = await prisma.user.findMany({
@@ -36,7 +39,7 @@ async function main() {
       posts: true,
     },
   });
-  console.log("All users:", JSON.stringify(allUsers, null, 2));
+  // console.log("All users:", JSON.stringify(allUsers, null, 2));
 }
 
 main()
@@ -50,3 +53,6 @@ main()
   });
 
 console.log("DB URL =", process.env.DATABASE_URL);
+
+
+// console.log(prisma.$connect());

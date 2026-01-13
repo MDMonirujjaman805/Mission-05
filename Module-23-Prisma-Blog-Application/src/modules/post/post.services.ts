@@ -8,7 +8,8 @@ const createPost = async (
   const result = await prisma.post.create({
     data: {
       ...data,
-      authorId: Number(userId), // 👈 fix here
+      authorId: userId, // 👈 fix here
+      // authorId: Number(userId), // 👈 fix here
     },
   });
 

@@ -1,12 +1,9 @@
 import express from "express";
-import  postRouter from "./modules/post/post.routes.js";
-// import { postRouter } from "./modules/post/post.routes.js";
-import { toNodeHandler } from "better-auth/node";
-import { auth } from "./lib/auth.js";
 import cors from "cors";
 
 const app = express();
 
+/* middlewares */
 app.use(express.json());
 
 app.use(
@@ -16,10 +13,7 @@ app.use(
   })
 );
 
-app.all("/api/auth/*splat", toNodeHandler(auth));
-
-app.use("/posts", postRouter);
-
+/* routes */
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });

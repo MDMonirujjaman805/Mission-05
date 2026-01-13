@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Post {
-  id         Int        @id @default(autoincrement())
+  id         String     @id @default(uuid())
   title      String     @db.VarChar(255)
   content    String     @db.Text
   thumbnail  String?    @db.VarChar(255)
@@ -22,7 +22,9 @@ model Post {
   status     PostStatus @default(PUBLISHED)
   tags       String[]
   views      Int        @default(0)
-  authorId   Int
+  // authorId   Int
+  authorId   String
+  author     User       @relation(fields: [authorId], references: [id])
   // author     User       @relation(fields: [authorId], references: [id])
   comments   Comment[]
   published  Boolean    @default(false)
@@ -34,15 +36,14 @@ model Post {
 }
 
 model Comment {
-  id        Int           @id @default(autoincrement())
+  id        String        @id
   content   String        @db.Text
-  postId    Int
-  parentId  Int?
+  postId    String
+  parentId  String?
   parent    Comment?      @relation("CommentReplies", fields: [parentId], references: [id])
   replies   Comment[]     @relation("CommentReplies")
   post      Post          @relation(fields: [postId], references: [id])
-  authorId  Int
-  // author    User          @relation(fields: [authorId], references: [id])
+  authorId  String
   status    CommentStatus @default(APPROVED)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
@@ -70,15 +71,16 @@ enum CommentStatus {
 }
 
 model User {
-  id            String    @id
+  id            String    @id @default(uuid())
   name          String
-  email         String
+  email         String    
   emailVerified Boolean   @default(false)
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  posts         Post[]
 
   role   String? @default("USER")
   phone  String?

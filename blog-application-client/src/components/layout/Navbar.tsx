@@ -17,6 +17,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ModeToggle } from "./ModeToggle";
+import { Menu } from "lucide-react";
 
 interface MenuItem {
   title: string;
@@ -55,6 +57,8 @@ const Navbar = ({
     { title: "Home", url: "/" },
     { title: "Blog", url: "/blog" },
     { title: "About", url: "/about" },
+    { title: "Contact", url: "/contact" },
+    { title: "Dashboard", url: "/dashboard" },
   ],
   auth = {
     login: { title: "Sign in", url: "/signin" },
@@ -71,7 +75,7 @@ const Navbar = ({
             {/* Logo */}
             {
               <Link href={logo.url} className="flex items-center gap-2">
-                <span className="text-lg font-bold tracking-tighter">
+                <span className="text-xl font-bold tracking-tighter">
                   {logo.title}
                 </span>
               </Link>
@@ -85,6 +89,7 @@ const Navbar = ({
             </div>
           </div>
           <div className="flex gap-2">
+            <ModeToggle />
             <Button asChild variant="outline" size="sm">
               <Link href={auth.login.url}>{auth.login.title}</Link>
             </Button>
@@ -98,11 +103,13 @@ const Navbar = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2"></Link>
+            <Link href={logo.url} className="flex items-center gap-2">
+              <span className="font-bold text-xl">{logo.title}</span>
+            </Link>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
-                  {/* <Menu className="size-4" /> */}
+                  <Menu className="size-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
@@ -124,6 +131,7 @@ const Navbar = ({
                   </Accordion>
 
                   <div className="flex flex-col gap-3">
+                    <ModeToggle />
                     <Button asChild variant="outline">
                       <Link href={auth.login.url}>{auth.login.title}</Link>
                     </Button>
@@ -142,21 +150,6 @@ const Navbar = ({
 };
 
 const renderMenuItem = (item: MenuItem) => {
-  // if (item.items) {
-  //   return (
-  //     <NavigationMenuItem key={item.title}>
-  //       <NavigationMenuTrigger>{item.title}</NavigationMenuTrigger>
-  //       <NavigationMenuContent className="bg-popover text-popover-foreground">
-  //         {item.items.map((subItem) => (
-  //           <NavigationMenuLink asChild key={subItem.title} className="w-80">
-  //             <SubMenuLink item={subItem} />
-  //           </NavigationMenuLink>
-  //         ))}
-  //       </NavigationMenuContent>
-  //     </NavigationMenuItem>
-  //   );
-  // }
-
   return (
     <NavigationMenuItem key={item.title}>
       <NavigationMenuLink
@@ -171,45 +164,11 @@ const renderMenuItem = (item: MenuItem) => {
 };
 
 const renderMobileMenuItem = (item: MenuItem) => {
-  // if (item.items) {
-  //   return (
-  //     <AccordionItem key={item.title} value={item.title} className="border-b-0">
-  //       <AccordionTrigger className="text-md py-0 font-semibold hover:no-underline">
-  //         {item.title}
-  //       </AccordionTrigger>
-  //       <AccordionContent className="mt-2">
-  //         {item.items.map((subItem) => (
-  //           <SubMenuLink key={subItem.title} item={subItem} />
-  //         ))}
-  //       </AccordionContent>
-  //     </AccordionItem>
-  //   );
-  // }
-
   return (
     <Link key={item.title} href={item.url} className="text-md font-semibold">
       {item.title}
     </Link>
   );
 };
-
-// const SubMenuLink = ({ item }: { item: MenuItem }) => {
-//   return (
-//     <Link
-//       className="flex min-w-80 flex-row gap-4 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted hover:text-accent-foreground"
-//       href={item.url}
-//     >
-//       <div className="text-foreground">{item.icon}</div>
-//       <div>
-//         <div className="text-sm font-semibold">{item.title}</div>
-//         {item.description && (
-//           <p className="text-sm leading-snug text-muted-foreground">
-//             {item.description}
-//           </p>
-//         )}
-//       </div>
-//     </Link>
-//   );
-// };
 
 export { Navbar };

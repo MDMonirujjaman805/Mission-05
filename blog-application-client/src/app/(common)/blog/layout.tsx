@@ -5,7 +5,7 @@ export default function BlogLayout({
 }) {
   return (
     <section>
-      <p className="bg-amber-600">This is Blog Layout.</p>
+      {/* <p className="bg-amber-600">This is Blog Layout.</p> */}
       {children}
     </section>
   );
